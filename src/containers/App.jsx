@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Search from '../components/Search'
 import Categories from '../components/Categories'
@@ -6,37 +6,53 @@ import Carousel from '../components/Carousel'
 import CarouselItem from '../components/CarouselItem'
 import Footer from '../components/Footer'
 import '../assets/styles/App.scss'
+import useInitialState from '../hooks/useInitialState'
 
-const App = () => (
+const API = 'http://localhost:3000/initalState'
+
+const App = () => {
+const initialState = useInitialState(API)
+console.log(initialState);
+return initialState === 0 ? <h1>Loading...</h1>:(
     <div className="App">
         <Header />
         <Search />
-        <Categories title="Mi Lista">
+        {initialState.mylist.length > 0 &&
+            <Categories title="Mi Lista">
             <Carousel>
-                <CarouselItem/>
-                <CarouselItem/>
-                <CarouselItem/>
+                {initialState.mylist.map(item => (
+                    <CarouselItem key={item.id} {...item}/>
+                    ))
+                }
             </Carousel>
-        </Categories>
+            </Categories>
+        }
+        
+        {initialState.trends.length > 0 &&
+            <Categories title="Tendencias">
+            <Carousel>
+                {initialState.trends.map(item => (
+                    <CarouselItem key={item.id} {...item}/>
+                    ))
+                }
+            </Carousel>
+            </Categories>
+        }
 
-        <Categories title="Tendencias">
+        {initialState.originals.length > 0 &&
+            <Categories title="Originales">
             <Carousel>
-                <CarouselItem/>
-                <CarouselItem/>
-                <CarouselItem/>
+                {initialState.originals.map(item => (
+                    <CarouselItem key={item.id} {...item}/>
+                    ))
+                }
             </Carousel>
-        </Categories>
-
-        <Categories title="Originales de">
-            <Carousel>
-                <CarouselItem/>
-                <CarouselItem/>
-                <CarouselItem/>
-            </Carousel>
-        </Categories>
+            </Categories>
+        }
 
         <Footer />
     </div>
 )
+}
 
 export default App
