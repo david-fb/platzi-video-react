@@ -10,7 +10,7 @@ import initialState from './initialState'
 
 const history = createBrowserHistory();
 //const composeEnhancers = window.__REDUX_DEVTOOL_EXTENSION_COMPOSE || compose
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() || compose;
 
 const store = createStore(reducer, initialState, composeEnhancers)
 
